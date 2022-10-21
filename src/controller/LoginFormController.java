@@ -20,5 +20,6 @@ public class LoginFormController {
 
         primaryStage.setScene(scene);
         primaryStage.centerOnScreen();
+        primaryStage.setMaximized(parent.isManaged());
     }
 }

@@ -20,7 +20,7 @@ public class AppInitializer extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.centerOnScreen();
-//        primaryStage.initStyle(StageStyle.TRANSPARENT);
+        primaryStage.setResizable(false);
         primaryStage.show();
 
     }
