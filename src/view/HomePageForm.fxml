@@ -33,7 +33,7 @@
                            <children>
                               <ImageView fitHeight="95.0" fitWidth="104.0" layoutX="36.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@assets/images/—Pngtree—collection%20logo%20tech_3588266.png" />
+                                    <Image url="@assets/images/logo.png" />
                                  </image>
                               </ImageView>
                               <Label layoutX="176.0" layoutY="11.0" text="Deliver Management" textFill="WHITE">
