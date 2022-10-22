@@ -1,5 +1,6 @@
 package controller;
 
+import animatefx.animation.FadeIn;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +14,27 @@ public class DashBoardFormController {
     public StackPane rootFullPage;
     public StackPane rootHome;
 
-    public void btnHomeOnAction(ActionEvent actionEvent) {
+    public void initialize(){
+
+        try {
+            StackPane pane = FXMLLoader.load(this.getClass().getResource("../view/HomePageForm.fxml"));
+            rootHome.getChildren().setAll(pane);
+            pane.setMaxWidth(1634);
+            pane.setMaxHeight(1010);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void btnHomeOnAction(ActionEvent actionEvent) throws IOException {
+        StackPane pane = FXMLLoader.load(this.getClass().getResource("../view/HomePageForm.fxml"));
+        rootHome.getChildren().setAll(pane);
+        pane.setMaxWidth(1634);
+        pane.setMaxHeight(1010);
+
+        new FadeIn(rootHome).play();
+
     }
 
     public void btnEmployeeOnAction(ActionEvent actionEvent) {
@@ -44,7 +65,6 @@ public class DashBoardFormController {
 
         stage.setScene(scene);
         stage.centerOnScreen();
-        stage.setResizable(false);
         stage.show();
 
     }
