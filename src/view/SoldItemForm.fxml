@@ -58,7 +58,7 @@
                               <Font size="20.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtSoldDate" labelFloat="true" layoutX="38.0" layoutY="200.0" prefHeight="44.0" prefWidth="248.0" promptText="Sold Date">
+                        <JFXTextField fx:id="txtSoldDate" labelFloat="true" layoutX="38.0" layoutY="200.0" mouseTransparent="true" prefHeight="44.0" prefWidth="248.0" promptText="Sold Date">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -73,7 +73,7 @@
                               <Font size="20.0" />
                            </font>
                         </JFXTextField>
-                        <JFXButton fx:id="btnViewSoldItem" layoutX="1304.0" layoutY="183.0" onAction="#btnViewSoldItemOnAction" prefHeight="61.0" prefWidth="246.0" style="-fx-background-radius: 10;" text="View Sold Items" textFill="WHITE">
+                        <JFXButton fx:id="btnViewSoldItem" layoutX="1304.0" layoutY="183.0" onAction="#btnViewSoldItemOnAction" prefHeight="61.0" prefWidth="246.0" style="-fx-background-radius: 10; -fx-background-color: #3498db;" text="View Sold Items" textFill="WHITE">
                            <styleClass>
                               <String fx:value="addEmpButton" />
                               <String fx:value="addEmpButton1" />
@@ -91,7 +91,7 @@
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton fx:id="btnViewAddItem" layoutX="1304.0" layoutY="183.0" onAction="#btnViewAddItemOnAction" prefHeight="61.0" prefWidth="246.0" style="-fx-background-radius: 10; -fx-background-color: #3498db;" text="View Add Item" textFill="WHITE">
+                        <JFXButton fx:id="btnViewAddItem" layoutX="1304.0" layoutY="183.0" onAction="#btnViewAddItemOnAction" prefHeight="61.0" prefWidth="246.0" style="-fx-background-radius: 10; -fx-background-color: #3498db;" text="View Add Item" textFill="WHITE" visible="false">
                            <styleClass>
                               <String fx:value="addEmpButton" />
                               <String fx:value="addEmpButton1" />
@@ -174,7 +174,7 @@
                         </JFXButton>
                      </children>
                   </Pane>
-                  <Pane fx:id="pnAddSoldItem" layoutX="22.0" layoutY="340.0" prefHeight="593.0" prefWidth="1591.0" style="-fx-background-color: #ecf0f1; -fx-background-radius: 10;">
+                  <Pane fx:id="pnAddSoldItem" layoutX="22.0" layoutY="340.0" prefHeight="593.0" prefWidth="1591.0" style="-fx-background-color: #ecf0f1; -fx-background-radius: 10;" visible="false">
                      <effect>
                         <DropShadow color="#00000070" spread="0.1" />
                      </effect>

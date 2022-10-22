@@ -79,7 +79,7 @@
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton layoutX="968.0" layoutY="202.0" onAction="#btnUpdateOnAction" prefHeight="61.0" prefWidth="273.0" style="-fx-background-radius: 10;" text="Update" textFill="WHITE">
+                        <JFXButton layoutX="968.0" layoutY="202.0" onAction="#btnUpdateOnAction" prefHeight="61.0" prefWidth="273.0" style="-fx-background-radius: 10; -fx-background-color: #e67e22;" text="Update" textFill="WHITE">
                            <styleClass>
                               <String fx:value="addEmpButton" />
                               <String fx:value="addEmpButton1" />
@@ -118,7 +118,7 @@
                         <FontAwesomeIconView glyphName="SEARCH" opacity="0.5" size="20" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton layoutX="1329.0" layoutY="871.0" onAction="#btnEditOnAction" prefHeight="61.0" prefWidth="273.0" style="-fx-background-radius: 10;" text="Edit Item" textFill="WHITE">
+                  <JFXButton layoutX="1329.0" layoutY="871.0" onAction="#btnEditOnAction" prefHeight="61.0" prefWidth="273.0" style="-fx-background-radius: 10; -fx-background-color: #16a085;" text="Edit Item" textFill="WHITE">
                      <styleClass>
                         <String fx:value="removeButton" />
                         <String fx:value="removeButton1" />

@@ -76,7 +76,7 @@
                            </styleClass>
                         </JFXButton>
                         <JFXComboBox fx:id="cmbItemCode" labelFloat="true" layoutX="533.0" layoutY="145.0" prefHeight="44.0" prefWidth="415.0" promptText="Item Code" />
-                        <JFXButton fx:id="btnViewOrderDetail" layoutX="1269.0" layoutY="276.0" onAction="#btnViewOrderDetailOnAction" prefHeight="58.0" prefWidth="257.0" style="-fx-background-radius: 10;" text="View Order Details" textFill="WHITE">
+                        <JFXButton fx:id="btnViewOrderDetail" layoutX="1269.0" layoutY="276.0" onAction="#btnViewOrderDetailOnAction" prefHeight="58.0" prefWidth="257.0" style="-fx-background-radius: 10; -fx-background-color: #2980b9;" text="View Order Details" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
@@ -85,7 +85,7 @@
                               <String fx:value="addEmpButton1" />
                            </styleClass>
                         </JFXButton>
-                        <JFXButton fx:id="btnViewAddItem" layoutX="1270.0" layoutY="276.0" onAction="#btnViewAddItemOnAction" prefHeight="58.0" prefWidth="257.0" style="-fx-background-radius: 10;" text="View Add Items" textFill="WHITE" visible="false">
+                        <JFXButton fx:id="btnViewAddItem" layoutX="1270.0" layoutY="276.0" onAction="#btnViewAddItemOnAction" prefHeight="58.0" prefWidth="257.0" style="-fx-background-radius: 10; -fx-background-color: #2980b9;" text="View Add Items" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
@@ -173,7 +173,7 @@
                            </font>
                         </JFXTextField>
                         <FontAwesomeIconView glyphName="SEARCH" layoutX="905.0" layoutY="99.0" opacity="0.5" size="18" />
-                        <JFXButton layoutX="707.0" layoutY="445.0" prefHeight="50.0" prefWidth="233.0" style="-fx-background-radius: 10;" text="Update" textFill="WHITE">
+                        <JFXButton layoutX="707.0" layoutY="445.0" prefHeight="50.0" prefWidth="233.0" style="-fx-background-radius: 10; -fx-background-color: #e67e22;" text="Update" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
@@ -191,7 +191,7 @@
                               <String fx:value="removeButton1" />
                            </styleClass>
                         </JFXButton>
-                        <JFXButton layoutX="461.0" layoutY="445.0" prefHeight="50.0" prefWidth="233.0" style="-fx-background-radius: 10;" text="Edit" textFill="WHITE">
+                        <JFXButton layoutX="461.0" layoutY="445.0" prefHeight="50.0" prefWidth="233.0" style="-fx-background-radius: 10; -fx-background-color: #16a085;" text="Edit" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
@@ -202,7 +202,7 @@
                         </JFXButton>
                      </children>
                   </Pane>
-                  <Pane fx:id="pnAddItemList" layoutX="35.0" layoutY="415.0" prefHeight="517.0" prefWidth="1568.0" style="-fx-background-color: #ecf0f1; -fx-background-radius: 10;" visible="false">
+                  <Pane fx:id="pnAddItemList" layoutX="35.0" layoutY="415.0" prefHeight="517.0" prefWidth="1568.0" style="-fx-background-color: #ecf0f1; -fx-background-radius: 10;">
                      <effect>
                         <DropShadow />
                      </effect>
