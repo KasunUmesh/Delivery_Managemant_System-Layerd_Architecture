@@ -72,7 +72,11 @@ public class DashBoardFormController {
         new FadeIn(rootHome).play();
     }
 
-    public void btnSoldDetailsOnAction(ActionEvent actionEvent) {
+    public void btnSoldDetailsOnAction(ActionEvent actionEvent) throws IOException {
+        StackPane pane = FXMLLoader.load(this.getClass().getResource("../view/SoldItemForm.fxml"));
+        rootHome.getChildren().setAll(pane);
+
+        new FadeIn(rootHome).play();
     }
 
     public void btnLogOutOnAction(ActionEvent actionEvent) throws IOException {
