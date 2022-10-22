@@ -30,14 +30,18 @@ public class DashBoardFormController {
     public void btnHomeOnAction(ActionEvent actionEvent) throws IOException {
         StackPane pane = FXMLLoader.load(this.getClass().getResource("../view/HomePageForm.fxml"));
         rootHome.getChildren().setAll(pane);
-        pane.setMaxWidth(1634);
-        pane.setMaxHeight(1010);
+//        pane.setMaxWidth(1634);
+//        pane.setMaxHeight(1010);
 
         new FadeIn(rootHome).play();
 
     }
 
-    public void btnEmployeeOnAction(ActionEvent actionEvent) {
+    public void btnEmployeeOnAction(ActionEvent actionEvent) throws IOException {
+        StackPane pane = FXMLLoader.load(this.getClass().getResource("../view/EmployeeForm.fxml"));
+        rootHome.getChildren().setAll(pane);
+
+        new FadeIn(rootHome).play();
     }
 
     public void btnVehicleOnAction(ActionEvent actionEvent) {
