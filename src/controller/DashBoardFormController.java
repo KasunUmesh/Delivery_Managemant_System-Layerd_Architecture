@@ -58,7 +58,11 @@ public class DashBoardFormController {
         new FadeIn(rootHome).play();
     }
 
-    public void btnItemOrderOnAction(ActionEvent actionEvent) {
+    public void btnItemOrderOnAction(ActionEvent actionEvent) throws IOException {
+        StackPane pane = FXMLLoader.load(this.getClass().getResource("../view/ItemOrderForm.fxml"));
+        rootHome.getChildren().setAll(pane);
+
+        new FadeIn(rootHome).play();
     }
 
     public void btnItemStockOnAction(ActionEvent actionEvent) {
