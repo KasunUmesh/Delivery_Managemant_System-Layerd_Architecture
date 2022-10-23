@@ -32,12 +32,9 @@ public class SoldItemFormController {
     public TableColumn colSoldDate;
     public TableColumn colSoldTotalQTY;
     public TableColumn colSoldTotalPrice;
-    public Pane pnSoldItemList;
-    public TableView tblSoldItemList;
+
     public TableColumn colSoldItemCode;
-    public TableColumn colSoldItemName;
-    public TableColumn colListSoldDate;
-    public TableColumn colSoldItemQty;
+
     public Pane pnAddSoldItem;
     public TableView tblAddSoldItem;
     public TableColumn colCustomerID;
@@ -56,7 +53,6 @@ public class SoldItemFormController {
         pnAddSoldItem.setVisible(true);
         btnViewSoldItem.setVisible(true);
         btnViewAddItem.setVisible(false);
-        pnSoldItemList.setVisible(false);
         pnSoldItem.setVisible(false);
     }
 
@@ -67,8 +63,7 @@ public class SoldItemFormController {
     }
 
     public void btnViewSoldItemOnAction(ActionEvent actionEvent) {
-        pnSoldItemList.setVisible(true);
-        new ZoomIn(pnSoldItemList).play();
+
         pnSoldItem.setVisible(true);
         new ZoomIn(pnSoldItem).play();
         btnViewAddItem.setVisible(true);
@@ -85,7 +80,6 @@ public class SoldItemFormController {
         new ZoomIn(pnAddSoldItem).play();
         btnViewSoldItem.setVisible(true);
 
-        pnSoldItemList.setVisible(false);
         pnSoldItem.setVisible(false);
         btnViewAddItem.setVisible(false);
     }
