@@ -3,6 +3,7 @@ package dao.custom.impl;
 import dao.CrudUtil;
 import dao.custom.CustomerDAO;
 import dto.CustomerDTO;
+import entity.Customers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 
 public class CustomerDAOImpl implements CustomerDAO {
     @Override
-    public boolean add(CustomerDTO dto) throws SQLException, ClassNotFoundException {
+    public boolean add(Customers dto) throws SQLException, ClassNotFoundException {
         return CrudUtil.executeUpdate("INSERT INTO CustomerShop (customerID, customerName, shopName, address, contactNumber) VALUES (?,?,?,?,?)", dto.getCustomerID(), dto.getCustomerName(), dto.getShopName(), dto.getAddress(), dto.getContactNumber());
     }
 
@@ -20,21 +21,21 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public boolean update(CustomerDTO dto) throws SQLException, ClassNotFoundException {
+    public boolean update(Customers dto) throws SQLException, ClassNotFoundException {
         return CrudUtil.executeUpdate("UPDATE CustomerShop SET customerName=?, shopName=?, address=?, contactNumber=? WHERE customerID=?", dto.getCustomerName(), dto.getShopName(), dto.getAddress(), dto.getContactNumber(), dto.getCustomerID());
     }
 
     @Override
-    public CustomerDTO search(String s) {
+    public Customers search(String s) {
         return null;
     }
 
     @Override
-    public ArrayList<CustomerDTO> getAll() throws SQLException, ClassNotFoundException {
-        ArrayList<CustomerDTO> allCustomers = new ArrayList();
+    public ArrayList<Customers> getAll() throws SQLException, ClassNotFoundException {
+        ArrayList<Customers> allCustomers = new ArrayList();
         ResultSet rst = CrudUtil.executeQuery("SELECT * FROM CustomerShop");
         while (rst.next()) {
-            allCustomers.add(new CustomerDTO(rst.getString("customerID"), rst.getString("customerName"), rst.getString("shopName"), rst.getString("address"), rst.getString("contactNumber")));
+            allCustomers.add(new Customers(rst.getString("customerID"), rst.getString("customerName"), rst.getString("shopName"), rst.getString("address"), rst.getString("contactNumber")));
         }
         return allCustomers;
     }
