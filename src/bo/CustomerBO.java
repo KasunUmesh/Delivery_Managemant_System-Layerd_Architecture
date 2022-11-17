@@ -2,8 +2,18 @@ package bo;
 
 import dto.CustomerDTO;
 
-public interface CustomerBO {
-    void updateCustomer(CustomerDTO customerDTO);
+import java.sql.SQLException;
+import java.util.ArrayList;
 
-    void deleteCustomer(String customerID);
+public interface CustomerBO {
+
+    ArrayList<CustomerDTO> getAllCustomer() throws SQLException, ClassNotFoundException;
+
+    boolean addCustomer(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException;
+
+    boolean updateCustomer(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException;
+
+    boolean deleteCustomer(String customerID) throws SQLException, ClassNotFoundException;
+
+    String generateNewCustomerID() throws SQLException, ClassNotFoundException;
 }
