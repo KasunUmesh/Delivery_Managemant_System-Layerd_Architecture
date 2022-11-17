@@ -8,10 +8,12 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import view.tdm.CustomerTM;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CustomerFormController {
     public JFXTextField txtCustomerID;
@@ -28,6 +30,32 @@ public class CustomerFormController {
     public JFXTextField txtSearchCustomer;
 
     private final CustomerBO customerBO = (CustomerBO) BoFactory.getBoFactory().getBO(BoFactory.BoTypes.CUSTOMER);
+
+    public void initialize(){
+        colCustomerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        colCustomerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        colShopName.setCellValueFactory(new PropertyValueFactory<>("shopName"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colContactNumber.setCellValueFactory(new PropertyValueFactory<>("contactNumber"));
+
+        loadAllCustomers();
+
+    }
+
+    private void loadAllCustomers(){
+        tblCustomer.getItems().clear();
+
+        try {
+            ArrayList<CustomerDTO> allCustomers = customerBO.getAllCustomer();
+            for (CustomerDTO customer : allCustomers){
+                tblCustomer.getItems().add(new CustomerTM(customer.getCustomerID(), customer.getCustomerName(), customer.getShopName(), customer.getAddress(), customer.getContactNumber()));
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+    }
 
     public void btnAddCustomerOnAction(ActionEvent actionEvent) {
         String customerID = txtCustomerID.getText();
@@ -46,7 +74,7 @@ public class CustomerFormController {
             txtShopName.clear();
             txtAddress.clear();
             txtContactNumber.clear();
-            
+
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to Save the Customer" + e.getMessage()).show();
             txtCustomerID.clear();
