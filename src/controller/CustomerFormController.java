@@ -1,13 +1,17 @@
 package controller;
 
+import bo.BoFactory;
 import bo.custom.CustomerBO;
-import bo.custom.impl.CustomerBOImpl;
 import com.jfoenix.controls.JFXTextField;
+import dto.CustomerDTO;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.KeyEvent;
 import view.tdm.CustomerTM;
+
+import java.sql.SQLException;
 
 public class CustomerFormController {
     public JFXTextField txtCustomerID;
@@ -23,7 +27,7 @@ public class CustomerFormController {
     public JFXTextField txtAddress;
     public JFXTextField txtSearchCustomer;
 
-    private CustomerBO customerBO = new CustomerBOImpl();
+    private final CustomerBO customerBO = (CustomerBO) BoFactory.getBoFactory().getBO(BoFactory.BoTypes.CUSTOMER);
 
     public void btnAddCustomerOnAction(ActionEvent actionEvent) {
         String customerID = txtCustomerID.getText();
@@ -32,18 +36,27 @@ public class CustomerFormController {
         String address = txtAddress.getText();
         String contactNumber = txtContactNumber.getText();
 
-        System.out.println(customerID);
-        System.out.println(customerName);
-        System.out.println(shopName);
-        System.out.println(address);
-        System.out.println(contactNumber);
 
-       /* try {
+        try {
             CustomerDTO customerDTO = new CustomerDTO(customerID, customerName, shopName, address, contactNumber);
-            customerDAO.addCustomer(customerDTO);
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }*/
+            customerBO.addCustomer(customerDTO);
+            new Alert(Alert.AlertType.CONFIRMATION, "Save Success..").show();
+            txtCustomerID.clear();
+            txtCustomerName.clear();
+            txtShopName.clear();
+            txtAddress.clear();
+            txtContactNumber.clear();
+            
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to Save the Customer" + e.getMessage()).show();
+            txtCustomerID.clear();
+            txtCustomerName.clear();
+            txtShopName.clear();
+            txtAddress.clear();
+            txtContactNumber.clear();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
