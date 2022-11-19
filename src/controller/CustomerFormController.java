@@ -77,7 +77,7 @@ public class CustomerFormController {
             txtCustomerID.setText(generateNewID());
             loadAllCustomers();
 
-           
+
             txtCustomerName.clear();
             txtShopName.clear();
             txtAddress.clear();
@@ -100,7 +100,14 @@ public class CustomerFormController {
 
     }
 
-    public void btnEditOnAction(ActionEvent actionEvent) {
+    public void btnEditOnAction(ActionEvent actionEvent){
+
+        CustomerTM selectedCustomer = tblCustomer.getSelectionModel().getSelectedItem();
+        txtCustomerID.setText(selectedCustomer.getCustomerID());
+        txtCustomerName.setText(selectedCustomer.getCustomerName());
+        txtShopName.setText(selectedCustomer.getShopName());
+        txtAddress.setText(selectedCustomer.getAddress());
+        txtContactNumber.setText(selectedCustomer.getContactNumber());
     }
 
     public void btnRemoveOnAction(ActionEvent actionEvent) {
