@@ -1,6 +1,6 @@
 package view.tdm;
 
-public class CustomerTM{
+public class CustomerTM implements Comparable<CustomerTM>{
 
     private String customerID;
     private String customerName;
@@ -68,5 +68,10 @@ public class CustomerTM{
                 ", address='" + address + '\'' +
                 ", contactNumber='" + contactNumber + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(CustomerTM o) {
+        return customerID.compareTo(o.getCustomerID());
     }
 }

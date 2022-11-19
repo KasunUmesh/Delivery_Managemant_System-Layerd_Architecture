@@ -14,6 +14,8 @@ import view.tdm.CustomerTM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class CustomerFormController {
     public JFXTextField txtCustomerID;
@@ -39,6 +41,9 @@ public class CustomerFormController {
         colContactNumber.setCellValueFactory(new PropertyValueFactory<>("contactNumber"));
 
         loadAllCustomers();
+        txtCustomerID.setText(generateNewID());
+        txtCustomerID.setEditable(false);
+
 
     }
 
@@ -69,7 +74,10 @@ public class CustomerFormController {
             CustomerDTO customerDTO = new CustomerDTO(customerID, customerName, shopName, address, contactNumber);
             customerBO.addCustomer(customerDTO);
             new Alert(Alert.AlertType.CONFIRMATION, "Save Success..").show();
-            txtCustomerID.clear();
+            txtCustomerID.setText(generateNewID());
+            loadAllCustomers();
+
+           
             txtCustomerName.clear();
             txtShopName.clear();
             txtAddress.clear();
@@ -89,18 +97,7 @@ public class CustomerFormController {
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
-        /*String customerID = txtCustomerID.getText();
-        String customerName = txtCustomerName.getText();
-        String shopName = txtShopName.getText();
-        String address = txtAddress.getText();
-        String contactNumber = txtContactNumber.getText();
 
-        try {
-            CustomerDTO customerDTO = new CustomerDTO(customerID, customerName, shopName, address, contactNumber);
-            customerBO.updateCustomer(customerDTO);
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }*/
     }
 
     public void btnEditOnAction(ActionEvent actionEvent) {
@@ -111,5 +108,29 @@ public class CustomerFormController {
     }
 
     public void txtSearchCustomerOnKey(KeyEvent keyEvent) {
+    }
+
+    private String generateNewID(){
+        try {
+            return customerBO.generateNewCustomerID();
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to generate a new id " + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (tblCustomer.getItems().isEmpty()){
+            return "C001";
+        }else {
+            String id = getLastCustomerID();
+            int newCustomerID = Integer.parseInt(id.replace("C", "")) +1;
+            return String.format("C%03d", newCustomerID);
+        }
+    }
+
+    private String getLastCustomerID(){
+        List<CustomerTM> tempCustomersList = new ArrayList<>(tblCustomer.getItems());
+        Collections.sort(tempCustomersList);
+        return tempCustomersList.get(tempCustomersList.size() - 1).getCustomerID();
     }
 }
