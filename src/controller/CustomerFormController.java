@@ -111,6 +111,22 @@ public class CustomerFormController {
     }
 
     public void btnRemoveOnAction(ActionEvent actionEvent) {
+        String id = tblCustomer.getSelectionModel().getSelectedItem().getCustomerID();
+
+        try {
+
+            customerBO.deleteCustomer(id);
+            new Alert(Alert.AlertType.CONFIRMATION, "Save Success..").show();
+            tblCustomer.getItems().remove(tblCustomer.getSelectionModel().getSelectedItem());
+            tblCustomer.getSelectionModel().clearSelection();
+            txtCustomerID.setText(generateNewID());
+
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to delete the customer " + id).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
