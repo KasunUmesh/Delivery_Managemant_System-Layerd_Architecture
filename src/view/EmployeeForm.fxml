@@ -133,7 +133,7 @@
                         <DropShadow color="#00000064" height="45.88" radius="18.552500000000002" spread="0.02" width="30.33" />
                      </effect>
                   </Pane>
-                  <Pane fx:id="pnViewAttend" layoutX="630.0" layoutY="385.0" prefHeight="576.0" prefWidth="987.0" stylesheets="@assets/styles/TableStyleSheet.css" visible="false" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="630.0" AnchorPane.rightAnchor="17.0">
+                  <Pane fx:id="pnViewAttend" layoutX="630.0" layoutY="385.0" prefHeight="576.0" prefWidth="987.0" stylesheets="@assets/styles/TableStyleSheet.css" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="630.0" AnchorPane.rightAnchor="17.0">
                      <children>
                         <JFXTextField fx:id="txtSearchAttend" labelFloat="true" layoutX="562.0" layoutY="16.0" onKeyReleased="#txtSearchAttendOnKey" prefHeight="44.0" prefWidth="419.0" promptText="Search">
                            <font>
@@ -158,9 +158,14 @@
                               <String fx:value="removeButton" />
                            </styleClass>
                         </JFXButton>
+                        <Text layoutX="4.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All Employee Attendance" textAlignment="CENTER" wrappingWidth="479.67095947265625">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Text>
                      </children>
                   </Pane>
-                  <Pane fx:id="pnViewEmployee" layoutX="631.0" layoutY="386.0" prefHeight="577.0" prefWidth="987.0" stylesheets="@assets/styles/TableStyleSheet.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="631.0" AnchorPane.rightAnchor="16.0">
+                  <Pane fx:id="pnViewEmployee" layoutX="631.0" layoutY="386.0" prefHeight="577.0" prefWidth="987.0" stylesheets="@assets/styles/TableStyleSheet.css" visible="false" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="631.0" AnchorPane.rightAnchor="16.0">
                      <children>
                         <TableView fx:id="tblEmployee" layoutX="2.0" layoutY="72.0" prefHeight="414.0" prefWidth="985.0">
                            <columns>
@@ -204,6 +209,11 @@
                            </font>
                         </JFXTextField>
                         <FontAwesomeIconView glyphName="SEARCH" layoutX="952.0" layoutY="50.0" opacity="0.5" size="20" />
+                        <Text layoutX="1.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All Employee" textAlignment="CENTER" wrappingWidth="223.67095947265625">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Text>
                      </children>
                   </Pane>
                </children>
