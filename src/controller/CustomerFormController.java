@@ -4,6 +4,7 @@ import bo.BoFactory;
 import bo.custom.CustomerBO;
 import com.jfoenix.controls.JFXTextField;
 import dto.CustomerDTO;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
@@ -156,6 +157,16 @@ public class CustomerFormController {
     }
 
     public void txtSearchCustomerOnKey(KeyEvent keyEvent) {
+        try {
+            ObservableList<CustomerTM> customer = customerBO.searchCustomer(txtSearchCustomer.getText());
+            tblCustomer.setItems(customer);
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Customer Search Failed" + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private String generateNewID(){

@@ -5,6 +5,9 @@ import dao.DAOFactory;
 import dao.custom.CustomerDAO;
 import dto.CustomerDTO;
 import entity.Customers;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import view.tdm.CustomerTM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -42,4 +45,17 @@ public class CustomerBOImpl implements CustomerBO {
     public String generateNewCustomerID() throws SQLException, ClassNotFoundException {
         return customerDAO.generateNewID();
     }
+
+    @Override
+    public ObservableList<CustomerTM> searchCustomer(String s) throws SQLException, ClassNotFoundException {
+        ObservableList<CustomerTM> allCustomer = FXCollections.observableArrayList();
+        ObservableList<Customers> customer = customerDAO.search(s);
+
+        for (Customers c : customer){
+            allCustomer.add(new CustomerTM(c.getCustomerID(), c.getCustomerName(), c.getShopName(), c.getAddress(), c.getContactNumber()));
+        }
+        return allCustomer;
+    }
+
+
 }

@@ -1,5 +1,7 @@
 package view.tdm;
 
+import entity.Customers;
+
 public class CustomerTM implements Comparable<CustomerTM>{
 
     private String customerID;
@@ -8,7 +10,7 @@ public class CustomerTM implements Comparable<CustomerTM>{
     private String address;
     private String contactNumber;
 
-    public CustomerTM() {
+    public CustomerTM(Customers customers, Customers customers1, Customers customers2, Customers customers3, Customers customers4) {
     }
 
     public CustomerTM(String customerID, String customerName, String shopName, String address, String contactNumber) {

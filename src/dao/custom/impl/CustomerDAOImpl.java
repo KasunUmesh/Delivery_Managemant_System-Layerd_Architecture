@@ -2,8 +2,9 @@ package dao.custom.impl;
 
 import dao.CrudUtil;
 import dao.custom.CustomerDAO;
-import dto.CustomerDTO;
 import entity.Customers;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,10 +26,6 @@ public class CustomerDAOImpl implements CustomerDAO {
         return CrudUtil.executeUpdate("UPDATE CustomerShop SET customerName=?, shopName=?, address=?, contactNumber=? WHERE customerID=?", dto.getCustomerName(), dto.getShopName(), dto.getAddress(), dto.getContactNumber(), dto.getCustomerID());
     }
 
-    @Override
-    public Customers search(String s) {
-        return null;
-    }
 
     @Override
     public ArrayList<Customers> getAll() throws SQLException, ClassNotFoundException {
@@ -38,6 +35,21 @@ public class CustomerDAOImpl implements CustomerDAO {
             allCustomers.add(new Customers(rst.getString("customerID"), rst.getString("customerName"), rst.getString("shopName"), rst.getString("address"), rst.getString("contactNumber")));
         }
         return allCustomers;
+    }
+
+
+    @Override
+    public ObservableList<Customers> search(String value) throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM CustomerShop WHERE CONCAT(customerID, customerName, shopName) LIKE '%" + value + "%'");
+
+        ObservableList<Customers> customers = FXCollections.observableArrayList();
+
+        while (rst.next()) {
+            customers.add(new Customers(
+                    rst.getString("customerID"), rst.getString("customerName"), rst.getString("shopName"), rst.getString("address"), rst.getString("contactNumber")
+            ));
+        }
+        return customers;
     }
 
 

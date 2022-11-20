@@ -1,5 +1,7 @@
 package dto;
 
+import entity.Customers;
+
 import java.io.Serializable;
 
 public class CustomerDTO implements Serializable {
@@ -10,7 +12,7 @@ public class CustomerDTO implements Serializable {
     private String address;
     private String contactNumber;
 
-    public CustomerDTO() {
+    public CustomerDTO(Customers customers, Customers customers1, Customers customers2, Customers customers3, Customers customers4) {
     }
 
     public CustomerDTO(String customerID, String customerName, String shopName, String address, String contactNumber) {
