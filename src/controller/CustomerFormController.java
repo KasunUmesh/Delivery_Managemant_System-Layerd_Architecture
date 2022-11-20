@@ -97,6 +97,31 @@ public class CustomerFormController {
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
+        String customerID = txtCustomerID.getText();
+        String customerName = txtCustomerName.getText();
+        String shopName = txtShopName.getText();
+        String address = txtAddress.getText();
+        String contactNumber = txtContactNumber.getText();
+
+
+        try {
+            CustomerDTO customerDTO = new CustomerDTO(customerID, customerName, shopName, address, contactNumber);
+            customerBO.updateCustomer(customerDTO);
+            new Alert(Alert.AlertType.CONFIRMATION, "Update Success..").show();
+            txtCustomerID.setText(generateNewID());
+            loadAllCustomers();
+
+
+            txtCustomerName.clear();
+            txtShopName.clear();
+            txtAddress.clear();
+            txtContactNumber.clear();
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + customerID + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
