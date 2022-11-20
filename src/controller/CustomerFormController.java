@@ -142,7 +142,7 @@ public class CustomerFormController {
         try {
 
             customerBO.deleteCustomer(id);
-            new Alert(Alert.AlertType.CONFIRMATION, "Save Success..").show();
+            new Alert(Alert.AlertType.CONFIRMATION, "Delete Success..").show();
             tblCustomer.getItems().remove(tblCustomer.getSelectionModel().getSelectedItem());
             tblCustomer.getSelectionModel().clearSelection();
             txtCustomerID.setText(generateNewID());

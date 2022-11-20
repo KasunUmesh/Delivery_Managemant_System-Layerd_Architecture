@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class EmployeeFormController {
+    private final EmployeeBO employeeBO = (EmployeeBO) BoFactory.getBoFactory().getBO(BoFactory.BoTypes.EMPLOYEE);
     public JFXTextField txtEmployeeID;
     public JFXTextField txtName;
     public JFXTextField txtAddress;
@@ -44,8 +45,6 @@ public class EmployeeFormController {
     public TableColumn colPosition;
     public JFXTextField txtSearchEmployee;
 
-    private final EmployeeBO employeeBO = (EmployeeBO) BoFactory.getBoFactory().getBO(BoFactory.BoTypes.EMPLOYEE);
-
     public void initialize() {
         colEmployeeID.setCellValueFactory(new PropertyValueFactory<>("employeeID"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -57,13 +56,13 @@ public class EmployeeFormController {
 
     }
 
-    private void loadAllEmployee(){
+    private void loadAllEmployee() {
         tblEmployee.getItems().clear();
 
         try {
 
             ArrayList<EmployeeDTO> allEmployee = employeeBO.getAllEmployee();
-            for (EmployeeDTO e : allEmployee){
+            for (EmployeeDTO e : allEmployee) {
                 tblEmployee.getItems().add(new EmployeeTM(e.getEmployeeID(), e.getName(), e.getAddress(), e.getContactNumber(), e.getPosition()));
             }
 
@@ -136,6 +135,20 @@ public class EmployeeFormController {
     }
 
     public void btnRemoveOnAction(ActionEvent actionEvent) {
+        String id = tblEmployee.getSelectionModel().getSelectedItem().getEmployeeID();
+
+        try {
+
+            employeeBO.deleteEmployee(id);
+            new Alert(Alert.AlertType.CONFIRMATION, "Delete Success..").show();
+            tblEmployee.getItems().remove(tblEmployee.getSelectionModel().getSelectedItem());
+            tblEmployee.getSelectionModel().clearSelection();
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to delete the Employee " + id).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void txtSearchEmployeeOnKeyRelease(KeyEvent keyEvent) {
