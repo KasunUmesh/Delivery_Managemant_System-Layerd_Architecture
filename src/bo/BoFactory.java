@@ -1,6 +1,7 @@
 package bo;
 
 import bo.custom.impl.CustomerBOImpl;
+import bo.custom.impl.EmployeeBOImpl;
 
 public class BoFactory {
     private static BoFactory boFactory;
@@ -19,12 +20,14 @@ public class BoFactory {
         switch (types) {
             case CUSTOMER:
                 return new CustomerBOImpl();
+            case EMPLOYEE:
+                return new EmployeeBOImpl();
             default:
                 return null;
         }
     }
 
     public enum BoTypes {
-        CUSTOMER
+        CUSTOMER,EMPLOYEE
     }
 }
