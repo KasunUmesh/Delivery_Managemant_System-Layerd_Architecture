@@ -6,6 +6,7 @@ import bo.custom.EmployeeBO;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import dto.EmployeeDTO;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
@@ -189,6 +190,15 @@ public class EmployeeFormController {
     }
 
     public void txtSearchEmployeeOnKeyRelease(KeyEvent keyEvent) {
+        try {
+            ObservableList<EmployeeTM> employee = employeeBO.searchEmployee(txtSearchEmployee.getText());
+            tblEmployee.setItems(employee);
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Employee Search Failed" + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private String generateNewID(){
