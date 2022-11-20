@@ -74,6 +74,7 @@ public class CustomerTM implements Comparable<CustomerTM>{
 
     @Override
     public int compareTo(CustomerTM o) {
+
         return customerID.compareTo(o.getCustomerID());
     }
 }
