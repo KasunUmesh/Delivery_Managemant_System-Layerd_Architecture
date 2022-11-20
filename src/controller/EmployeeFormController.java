@@ -129,9 +129,39 @@ public class EmployeeFormController {
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
+        String employeeID = txtEmployeeID.getText();
+        String name = txtName.getText();
+        String address = txtAddress.getText();
+        String contactNumber = txtContactNumber.getText();
+        String position = txtPosition.getText();
+
+
+        try {
+            EmployeeDTO employeeDTO = new EmployeeDTO(employeeID, name, address, contactNumber, position);
+            employeeBO.updateEmployee(employeeDTO);
+            new Alert(Alert.AlertType.CONFIRMATION, "Update Success..").show();
+            loadAllEmployee();
+
+            txtEmployeeID.clear();
+            txtName.clear();
+            txtAddress.clear();
+            txtContactNumber.clear();
+            txtPosition.clear();
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to update the Employee " + employeeID + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void btnEditOnAction(ActionEvent actionEvent) {
+        EmployeeTM selectedEmployee = tblEmployee.getSelectionModel().getSelectedItem();
+        txtEmployeeID.setText(selectedEmployee.getEmployeeID());
+        txtName.setText(selectedEmployee.getName());
+        txtAddress.setText(selectedEmployee.getAddress());
+        txtContactNumber.setText(selectedEmployee.getContactNumber());
+        txtPosition.setText(selectedEmployee.getPosition());
     }
 
     public void btnRemoveOnAction(ActionEvent actionEvent) {
