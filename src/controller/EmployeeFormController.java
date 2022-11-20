@@ -10,11 +10,13 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import view.tdm.EmployeeTM;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class EmployeeFormController {
     public JFXTextField txtEmployeeID;
@@ -45,7 +47,31 @@ public class EmployeeFormController {
     private final EmployeeBO employeeBO = (EmployeeBO) BoFactory.getBoFactory().getBO(BoFactory.BoTypes.EMPLOYEE);
 
     public void initialize() {
+        colEmployeeID.setCellValueFactory(new PropertyValueFactory<>("employeeID"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colContactNumber.setCellValueFactory(new PropertyValueFactory<>("contactNumber"));
+        colPosition.setCellValueFactory(new PropertyValueFactory<>("position"));
 
+        loadAllEmployee();
+
+    }
+
+    private void loadAllEmployee(){
+        tblEmployee.getItems().clear();
+
+        try {
+
+            ArrayList<EmployeeDTO> allEmployee = employeeBO.getAllEmployee();
+            for (EmployeeDTO e : allEmployee){
+                tblEmployee.getItems().add(new EmployeeTM(e.getEmployeeID(), e.getName(), e.getAddress(), e.getContactNumber(), e.getPosition()));
+            }
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 
     public void btnViewEmployeeOnAction(ActionEvent actionEvent) {
@@ -66,6 +92,7 @@ public class EmployeeFormController {
             EmployeeDTO employeeDTO = new EmployeeDTO(employeeID, name, address, contactNumber, position);
             employeeBO.addEmployee(employeeDTO);
             new Alert(Alert.AlertType.CONFIRMATION, "Save Success..").show();
+            loadAllEmployee();
 
             txtEmployeeID.clear();
             txtName.clear();
