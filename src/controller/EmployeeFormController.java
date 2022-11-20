@@ -17,6 +17,8 @@ import view.tdm.EmployeeTM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class EmployeeFormController {
     private final EmployeeBO employeeBO = (EmployeeBO) BoFactory.getBoFactory().getBO(BoFactory.BoTypes.EMPLOYEE);
@@ -53,6 +55,8 @@ public class EmployeeFormController {
         colPosition.setCellValueFactory(new PropertyValueFactory<>("position"));
 
         loadAllEmployee();
+        txtEmployeeID.setText(generateNewID());
+        txtEmployeeID.setEditable(false);
 
     }
 
@@ -91,9 +95,10 @@ public class EmployeeFormController {
             EmployeeDTO employeeDTO = new EmployeeDTO(employeeID, name, address, contactNumber, position);
             employeeBO.addEmployee(employeeDTO);
             new Alert(Alert.AlertType.CONFIRMATION, "Save Success..").show();
+            txtEmployeeID.setText(generateNewID());
             loadAllEmployee();
 
-            txtEmployeeID.clear();
+
             txtName.clear();
             txtAddress.clear();
             txtContactNumber.clear();
@@ -140,9 +145,10 @@ public class EmployeeFormController {
             EmployeeDTO employeeDTO = new EmployeeDTO(employeeID, name, address, contactNumber, position);
             employeeBO.updateEmployee(employeeDTO);
             new Alert(Alert.AlertType.CONFIRMATION, "Update Success..").show();
+            txtEmployeeID.setText(generateNewID());
             loadAllEmployee();
 
-            txtEmployeeID.clear();
+
             txtName.clear();
             txtAddress.clear();
             txtContactNumber.clear();
@@ -173,6 +179,7 @@ public class EmployeeFormController {
             new Alert(Alert.AlertType.CONFIRMATION, "Delete Success..").show();
             tblEmployee.getItems().remove(tblEmployee.getSelectionModel().getSelectedItem());
             tblEmployee.getSelectionModel().clearSelection();
+            txtEmployeeID.setText(generateNewID());
 
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to delete the Employee " + id).show();
@@ -182,5 +189,30 @@ public class EmployeeFormController {
     }
 
     public void txtSearchEmployeeOnKeyRelease(KeyEvent keyEvent) {
+    }
+
+    private String generateNewID(){
+        try {
+            return employeeBO.generateNewEmployeeID();
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to generate a new id " + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (tblEmployee.getItems().isEmpty()){
+            return "E001";
+        }else {
+            String id = getLastEmployeeID();
+            int newEmployeeID = Integer.parseInt(id.replace("E", "")) + 1;
+            return String.format("E%03d", newEmployeeID);
+        }
+    }
+
+    private String getLastEmployeeID(){
+        List<EmployeeTM> tempEmployeeList = new ArrayList<>(tblEmployee.getItems());
+        Collections.sort(tempEmployeeList);
+        return tempEmployeeList.get(tempEmployeeList.size() - 1).getEmployeeID();
     }
 }
