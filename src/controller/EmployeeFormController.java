@@ -2,10 +2,14 @@ package controller;
 
 import animatefx.animation.ZoomIn;
 import bo.BoFactory;
+import bo.custom.EmployeeAttendanceBO;
 import bo.custom.EmployeeBO;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import dto.EmployeeAttendanceDTO;
 import dto.EmployeeDTO;
+import entity.Employee;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
@@ -17,21 +21,24 @@ import javafx.scene.layout.Pane;
 import view.tdm.EmployeeTM;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class EmployeeFormController {
     private final EmployeeBO employeeBO = (EmployeeBO) BoFactory.getBoFactory().getBO(BoFactory.BoTypes.EMPLOYEE);
+    private final EmployeeAttendanceBO employeeAttendanceBO = (EmployeeAttendanceBO) BoFactory.getBoFactory().getBO(BoFactory.BoTypes.EMPLOYEEATTENDANCE);
     public JFXTextField txtEmployeeID;
     public JFXTextField txtName;
     public JFXTextField txtAddress;
     public JFXTextField txtContactNumber;
     public JFXTextField txtPosition;
     public JFXTextField txtEmployeeName;
-    public JFXComboBox cmbEmployeeID;
+    public JFXComboBox<String> cmbEmployeeID;
     public JFXTextField txtAttendDate;
-    public JFXComboBox cmbAttend;
+    public JFXComboBox<String> cmbAttend;
     public Pane pnViewAttend;
     public JFXTextField txtSearchAttend;
     public TableView tblEmployeeAttend;
@@ -58,7 +65,52 @@ public class EmployeeFormController {
         loadAllEmployee();
         txtEmployeeID.setText(generateNewID());
         txtEmployeeID.setEditable(false);
+        loadAttendCombo();
+        loadEmployeeID();
 
+        cmbEmployeeID.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            setEmployeeData(newValue);
+        });
+
+    }
+
+    private void loadAttendCombo(){
+        ObservableList<String> list = FXCollections.observableArrayList("Yes", "No");
+        cmbAttend.setItems(list);
+    }
+
+    private void loadEmployeeID(){
+        try {
+            List<String> employeeID = employeeAttendanceBO.getEmployeeID();
+            cmbEmployeeID.getItems().setAll(employeeID);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void setEmployeeData(String employeeID){
+        try {
+            Employee e1 = employeeAttendanceBO.getEmployee(employeeID);
+            if (e1 == null){
+                new Alert(Alert.AlertType.WARNING, "Empty Result Set").show();
+            }else {
+                txtEmployeeName.setText(e1.getName());
+                loadDate();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void loadDate(){
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        txtAttendDate.setText(format.format(date));
     }
 
     private void loadAllEmployee() {
@@ -98,6 +150,7 @@ public class EmployeeFormController {
             new Alert(Alert.AlertType.CONFIRMATION, "Save Success..").show();
             txtEmployeeID.setText(generateNewID());
             loadAllEmployee();
+            loadEmployeeID();
 
 
             txtName.clear();

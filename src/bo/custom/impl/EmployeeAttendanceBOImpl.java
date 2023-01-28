@@ -6,12 +6,14 @@ import dao.custom.EmployeeAttendanceDAO;
 import dao.custom.EmployeeDAO;
 import dto.EmployeeAttendanceDTO;
 import entity.EmpAttendance;
+import entity.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import view.tdm.EmployeeAttendanceTM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class EmployeeAttendanceBOImpl implements EmployeeAttendanceBO {
 
@@ -26,6 +28,19 @@ public class EmployeeAttendanceBOImpl implements EmployeeAttendanceBO {
             allEmployeeAttend.add(new EmployeeAttendanceDTO(empAttendance.getEmployeeID(), empAttendance.getEmployeeName(), empAttendance.getAttendDate(), empAttendance.getAttend()));
         }
         return allEmployeeAttend;
+    }
+
+    @Override
+    public List<String> getEmployeeID() throws SQLException, ClassNotFoundException {
+        List<String> employeeID = employeeAttendanceDAO.getEmployeeID();
+
+        return employeeID;
+    }
+
+    @Override
+    public Employee getEmployee(String employeeID) throws SQLException, ClassNotFoundException {
+        Employee e1 = employeeAttendanceDAO.getEmployee(employeeID);
+        return e1;
     }
 
     @Override
@@ -56,4 +71,6 @@ public class EmployeeAttendanceBOImpl implements EmployeeAttendanceBO {
         }
         return allEmployeeAttend;
     }
+
+
 }
