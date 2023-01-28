@@ -1,7 +1,9 @@
 package bo;
 
 import bo.custom.impl.CustomerBOImpl;
+import bo.custom.impl.EmployeeAttendanceBOImpl;
 import bo.custom.impl.EmployeeBOImpl;
+import dao.custom.impl.EmployeeAttendanceDAOImpl;
 
 public class BoFactory {
     private static BoFactory boFactory;
@@ -22,12 +24,14 @@ public class BoFactory {
                 return new CustomerBOImpl();
             case EMPLOYEE:
                 return new EmployeeBOImpl();
+            case EMPLOYEEATTENDANCE:
+                return new EmployeeAttendanceBOImpl();
             default:
                 return null;
         }
     }
 
     public enum BoTypes {
-        CUSTOMER,EMPLOYEE
+        CUSTOMER, EMPLOYEE, EMPLOYEEATTENDANCE
     }
 }
