@@ -22,6 +22,7 @@ import view.tdm.EmployeeTM;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -173,6 +174,32 @@ public class EmployeeFormController {
     }
 
     public void btnAddAttendOnAction(ActionEvent actionEvent) {
+        String empAttendID = cmbEmployeeID.getValue();
+        String empAttendName = txtEmployeeName.getText();
+        LocalDate empAttendDate = LocalDate.parse(txtAttendDate.getText());
+        String empAttend = cmbAttend.getValue();
+
+        try {
+
+            EmployeeAttendanceDTO employeeAttendanceDTO = new EmployeeAttendanceDTO(empAttendID, empAttendName, empAttendDate, empAttend);
+            employeeAttendanceBO.addEmployeeAttend(employeeAttendanceDTO);
+            new Alert(Alert.AlertType.CONFIRMATION, "Save Success..").show();
+
+                txtEmployeeName.clear();
+                txtAttendDate.clear();
+
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to Save the Employee Attendance" + e.getMessage()).show();
+
+            cmbEmployeeID.setValue("Select");
+            txtEmployeeName.clear();
+            txtAttendDate.clear();
+            cmbAttend.setValue("Select ");
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void btnViewAttendOnAction(ActionEvent actionEvent) {

@@ -10,7 +10,7 @@ public class EmployeeAttendanceDTO implements Serializable {
     private LocalDate attendDate;
     private String attend;
 
-    public EmployeeAttendanceDTO() {
+    public EmployeeAttendanceDTO(String empAttendID, String empAttendName, String empAttendDate, String empAttend) {
     }
 
     public EmployeeAttendanceDTO(String employeeID, String employeeName, LocalDate attendDate, String attend) {
