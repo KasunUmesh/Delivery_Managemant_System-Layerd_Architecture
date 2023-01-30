@@ -18,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import view.tdm.EmployeeAttendanceTM;
 import view.tdm.EmployeeTM;
 
 import java.sql.SQLException;
@@ -42,7 +43,7 @@ public class EmployeeFormController {
     public JFXComboBox<String> cmbAttend;
     public Pane pnViewAttend;
     public JFXTextField txtSearchAttend;
-    public TableView tblEmployeeAttend;
+    public TableView<EmployeeAttendanceTM> tblEmployeeAttend;
     public TableColumn colEmployeeIDAttend;
     public TableColumn colNameAttend;
     public TableColumn colDateAttend;
@@ -63,7 +64,13 @@ public class EmployeeFormController {
         colContactNumber.setCellValueFactory(new PropertyValueFactory<>("contactNumber"));
         colPosition.setCellValueFactory(new PropertyValueFactory<>("position"));
 
+        colEmployeeIDAttend.setCellValueFactory(new PropertyValueFactory<>("employeeID"));
+        colNameAttend.setCellValueFactory(new PropertyValueFactory<>("employeeName"));
+        colDateAttend.setCellValueFactory(new PropertyValueFactory<>("attendDate"));
+        colAttendance.setCellValueFactory(new PropertyValueFactory<>("attend"));
+
         loadAllEmployee();
+        loadAllEmployeeAttend();
         txtEmployeeID.setText(generateNewID());
         txtEmployeeID.setEditable(false);
         loadAttendCombo();
@@ -131,6 +138,23 @@ public class EmployeeFormController {
         }
     }
 
+    private void loadAllEmployeeAttend(){
+        tblEmployeeAttend.getItems().clear();
+
+        try {
+
+            ArrayList<EmployeeAttendanceDTO> allAttend = employeeAttendanceBO.getAllEmployeeAttend();
+            for (EmployeeAttendanceDTO e : allAttend) {
+                tblEmployeeAttend.getItems().add(new EmployeeAttendanceTM(e.getEmployeeID(), e.getEmployeeName(), e.getAttendDate(), e.getAttend()));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void btnViewEmployeeOnAction(ActionEvent actionEvent) {
         pnViewEmployee.setVisible(true);
         new ZoomIn(pnViewEmployee).play();
@@ -184,9 +208,9 @@ public class EmployeeFormController {
             EmployeeAttendanceDTO employeeAttendanceDTO = new EmployeeAttendanceDTO(empAttendID, empAttendName, empAttendDate, empAttend);
             employeeAttendanceBO.addEmployeeAttend(employeeAttendanceDTO);
             new Alert(Alert.AlertType.CONFIRMATION, "Save Success..").show();
-
-                txtEmployeeName.clear();
-                txtAttendDate.clear();
+            loadAllEmployeeAttend();
+            txtEmployeeName.clear();
+            txtAttendDate.clear();
 
 
         } catch (SQLException e) {
