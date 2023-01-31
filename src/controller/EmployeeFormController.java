@@ -232,12 +232,6 @@ public class EmployeeFormController {
         pnViewEmployee.setVisible(false);
     }
 
-    public void txtSearchAttendOnKey(KeyEvent keyEvent) {
-    }
-
-    public void btnRemoveAttendOnAction(ActionEvent actionEvent) {
-    }
-
     public void btnUpdateOnAction(ActionEvent actionEvent) {
         String employeeID = txtEmployeeID.getText();
         String name = txtName.getText();
@@ -303,6 +297,26 @@ public class EmployeeFormController {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public void btnRemoveAttendOnAction(ActionEvent actionEvent) {
+        String id = tblEmployeeAttend.getSelectionModel().getSelectedItem().getEmployeeID();
+
+        try {
+
+            employeeAttendanceBO.deleteEmployeeAtted(id);
+            new Alert(Alert.AlertType.CONFIRMATION, "Delete Success..").show();
+            tblEmployeeAttend.getItems().remove(tblEmployeeAttend.getSelectionModel().getSelectedItem());
+            tblEmployeeAttend.getSelectionModel().clearSelection();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void txtSearchAttendOnKey(KeyEvent keyEvent) {
     }
 
     private String generateNewID(){
