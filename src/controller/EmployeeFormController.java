@@ -317,6 +317,15 @@ public class EmployeeFormController {
     }
 
     public void txtSearchAttendOnKey(KeyEvent keyEvent) {
+
+        try {
+            ObservableList<EmployeeAttendanceTM> empAttend = employeeAttendanceBO.searchEmployeeAttend(txtSearchAttend.getText());
+            tblEmployeeAttend.setItems(empAttend);
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Employee Search Failed" + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private String generateNewID(){
