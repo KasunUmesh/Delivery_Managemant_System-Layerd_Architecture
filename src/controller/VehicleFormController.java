@@ -4,6 +4,7 @@ import bo.BoFactory;
 import bo.custom.VehicleBO;
 import com.jfoenix.controls.JFXTextField;
 import dto.VehicleDTO;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
@@ -137,6 +138,14 @@ public class VehicleFormController {
     }
 
     public void txtSearchVehicleOnKey(KeyEvent keyEvent) {
+        try {
+            ObservableList<VehicleTM> vehicle = vehicleBO.searchVehicle(txtSearchVehicle.getText());
+            tblVehicle.setItems(vehicle);
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Vehicle Search Failed" + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private String generateNewID(){
