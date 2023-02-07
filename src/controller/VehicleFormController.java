@@ -86,6 +86,28 @@ public class VehicleFormController {
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
+        String vehicleID = txtVehicleID.getText();
+        String vehicleNumber = txtVehicleNumber.getText();
+        String vehicleType = txtVehicleType.getText();
+        String desc = txtDescription.getText();
+
+
+        try {
+            VehicleDTO vehicleDTO = new VehicleDTO(vehicleID, vehicleNumber, vehicleType, desc);
+            vehicleBO.updateVehicle(vehicleDTO);
+            new Alert(Alert.AlertType.CONFIRMATION, "Update Success..").show();
+            txtVehicleID.setText(generateNewID());
+            loadAllVehicles();
+
+            txtVehicleNumber.clear();
+            txtVehicleType.clear();
+            txtDescription.clear();
+            
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to update the Vehicle " + vehicleID + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void btnEditOnAction(ActionEvent actionEvent) {
