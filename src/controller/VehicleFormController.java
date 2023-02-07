@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import view.tdm.VehicleTM;
 
@@ -31,8 +32,29 @@ public class VehicleFormController {
     private final VehicleBO vehicleBO = (VehicleBO) BoFactory.getBoFactory().getBO(BoFactory.BoTypes.VEHICLE);
 
     public void initialize() {
+        colVehicleID.setCellValueFactory(new PropertyValueFactory<>("vehicleID"));
+        colVehicleNumber.setCellValueFactory(new PropertyValueFactory<>("vehicleNumber"));
+        colVehicleType.setCellValueFactory(new PropertyValueFactory<>("vehicleType"));
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+        loadAllVehicles();
         txtVehicleID.setText(generateNewID());
         txtVehicleID.setEditable(false);
+    }
+
+    private void loadAllVehicles() {
+        tblVehicle.getItems().clear();
+
+        try {
+            ArrayList<VehicleDTO> allVehicle = vehicleBO.getAllVehicle();
+            for (VehicleDTO vehicle : allVehicle) {
+                tblVehicle.getItems().add(new VehicleTM(vehicle.getVehicleID(), vehicle.getVehicleNumber(), vehicle.getVehicleType(), vehicle.getDescription()));
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 
     public void btnAddVehicleOnAction(ActionEvent actionEvent) {
@@ -47,6 +69,7 @@ public class VehicleFormController {
             vehicleBO.addVehicle(vehicleDTO);
             new Alert(Alert.AlertType.CONFIRMATION, "Save Success..").show();
             txtVehicleID.setText(generateNewID());
+            loadAllVehicles();
 
             txtVehicleNumber.clear();
             txtVehicleType.clear();
