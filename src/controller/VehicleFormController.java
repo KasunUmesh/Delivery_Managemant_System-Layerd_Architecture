@@ -102,7 +102,7 @@ public class VehicleFormController {
             txtVehicleNumber.clear();
             txtVehicleType.clear();
             txtDescription.clear();
-            
+
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to update the Vehicle " + vehicleID + e.getMessage()).show();
         } catch (ClassNotFoundException e) {
@@ -119,6 +119,21 @@ public class VehicleFormController {
     }
 
     public void btnRemoveOnAction(ActionEvent actionEvent) {
+        String id = tblVehicle.getSelectionModel().getSelectedItem().getVehicleID();
+
+        try {
+
+            vehicleBO.deleteVehicle(id);
+            new Alert(Alert.AlertType.CONFIRMATION, "Delete Success..").show();
+            tblVehicle.getItems().remove(tblVehicle.getSelectionModel().getSelectedItem());
+            tblVehicle.getSelectionModel().clearSelection();
+            txtVehicleID.setText(generateNewID());
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to delete the Vehicle" + id).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void txtSearchVehicleOnKey(KeyEvent keyEvent) {
