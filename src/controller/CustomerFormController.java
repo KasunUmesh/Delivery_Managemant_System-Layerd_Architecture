@@ -86,7 +86,6 @@ public class CustomerFormController {
 
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to Save the Customer" + e.getMessage()).show();
-            txtCustomerID.clear();
             txtCustomerName.clear();
             txtShopName.clear();
             txtAddress.clear();

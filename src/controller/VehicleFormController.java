@@ -12,6 +12,9 @@ import javafx.scene.input.KeyEvent;
 import view.tdm.VehicleTM;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class VehicleFormController {
     public JFXTextField txtVehicleID;
@@ -27,6 +30,11 @@ public class VehicleFormController {
 
     private final VehicleBO vehicleBO = (VehicleBO) BoFactory.getBoFactory().getBO(BoFactory.BoTypes.VEHICLE);
 
+    public void initialize() {
+        txtVehicleID.setText(generateNewID());
+        txtVehicleID.setEditable(false);
+    }
+
     public void btnAddVehicleOnAction(ActionEvent actionEvent) {
         String vehicleID = txtVehicleID.getText();
         String vehicleNumber = txtVehicleNumber.getText();
@@ -38,6 +46,7 @@ public class VehicleFormController {
             VehicleDTO vehicleDTO = new VehicleDTO(vehicleID, vehicleNumber, vehicleType, desc);
             vehicleBO.addVehicle(vehicleDTO);
             new Alert(Alert.AlertType.CONFIRMATION, "Save Success..").show();
+            txtVehicleID.setText(generateNewID());
 
             txtVehicleNumber.clear();
             txtVehicleType.clear();
@@ -63,5 +72,29 @@ public class VehicleFormController {
     }
 
     public void txtSearchVehicleOnKey(KeyEvent keyEvent) {
+    }
+
+    private String generateNewID(){
+        try {
+            return vehicleBO.generateNewVehicleID();
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to generate a new id " + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (tblVehicle.getItems().isEmpty()) {
+            return "V001";
+        }else {
+            String id = getLastVehicleID();
+            int newVehicleID = Integer.parseInt(id.replace("V", "")) +1;
+            return String.format("V%03d", newVehicleID);
+        }
+    }
+
+    private String getLastVehicleID() {
+        List<VehicleTM> tempVehicleList = new ArrayList<>(tblVehicle.getItems());
+        Collections.sort(tempVehicleList);
+        return tempVehicleList.get(tempVehicleList.size() -1).getVehicleID();
     }
 }
