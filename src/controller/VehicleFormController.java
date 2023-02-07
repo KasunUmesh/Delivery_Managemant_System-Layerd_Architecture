@@ -89,6 +89,11 @@ public class VehicleFormController {
     }
 
     public void btnEditOnAction(ActionEvent actionEvent) {
+        VehicleTM selectedVehicle = tblVehicle.getSelectionModel().getSelectedItem();
+        txtVehicleID.setText(selectedVehicle.getVehicleID());
+        txtVehicleNumber.setText(selectedVehicle.getVehicleNumber());
+        txtVehicleType.setText(selectedVehicle.getVehicleType());
+        txtDescription.setText(selectedVehicle.getDescription());
     }
 
     public void btnRemoveOnAction(ActionEvent actionEvent) {
