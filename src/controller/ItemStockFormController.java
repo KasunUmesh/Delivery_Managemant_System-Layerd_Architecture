@@ -4,6 +4,7 @@ import bo.BoFactory;
 import bo.custom.StockItemBO;
 import com.jfoenix.controls.JFXTextField;
 import dto.StockItemDTO;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
@@ -122,6 +123,14 @@ public class ItemStockFormController {
     }
 
     public void txtSearchOnKeyRelease(KeyEvent keyEvent) {
+        try {
+            ObservableList<StockItemTM> stockItem = stockItemBO.searchStockItem(txtSearch.getText());
+            tblItemStock.setItems(stockItem);
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Items Search Failed" + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void btnRemoveOnAction(ActionEvent actionEvent) {
