@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import view.tdm.StockItemTM;
 
@@ -33,8 +34,30 @@ public class ItemStockFormController {
     private final StockItemBO stockItemBO = (StockItemBO) BoFactory.getBoFactory().getBO(BoFactory.BoTypes.STOCKITEM);
 
     public void initialize() {
+        colItemCode.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
+        colItemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+        colItemDescription.setCellValueFactory(new PropertyValueFactory<>("itemDescription"));
+        colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
+        colQtyOnStock.setCellValueFactory(new PropertyValueFactory<>("qtyOnStock"));
+
+        loadAllStockItems();
         txtItemCode.setText(generateNewID());
         txtItemCode.setEditable(false);
+    }
+
+    private void loadAllStockItems() {
+        tblItemStock.getItems().clear();
+
+        try {
+            ArrayList<StockItemDTO> allItems = stockItemBO.getAllStockItem();
+            for (StockItemDTO items : allItems) {
+                tblItemStock.getItems().add(new StockItemTM(items.getItemCode(), items.getItemName(), items.getItemDescription(), items.getUnitPrice(), items.getQtyOnStock()));
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 
     public void btnAddItemOnAction(ActionEvent actionEvent) {
@@ -50,6 +73,7 @@ public class ItemStockFormController {
             stockItemBO.addItem(stockItemDTO);
             new Alert(Alert.AlertType.CONFIRMATION, "Save Success..").show();
             txtItemCode.setText(generateNewID());
+            loadAllStockItems();
 
             txtItemName.clear();
             txtItemDescription.clear();
@@ -68,6 +92,33 @@ public class ItemStockFormController {
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
+        String itemCode = txtItemCode.getText();
+        String itemName = txtItemName.getText();
+        String itemDescription = txtItemDescription.getText();
+        Double unitPrice = Double.valueOf(txtUnitPrice.getText());
+        Integer qtyOnStock = Integer.valueOf(txtQTYOnStock.getText());
+
+
+        try {
+            StockItemDTO stockItemDTO = new StockItemDTO(itemCode, itemName, itemDescription, unitPrice, qtyOnStock);
+            stockItemBO.updateItem(stockItemDTO);
+            new Alert(Alert.AlertType.CONFIRMATION, "Update Success..").show();
+            txtItemCode.setText(generateNewID());
+            loadAllStockItems();
+
+            txtItemName.clear();
+            txtItemDescription.clear();
+            txtUnitPrice.clear();
+            txtQTYOnStock.clear();
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to update the Items " + itemCode + e.getMessage()).show();
+            txtItemName.clear();
+            txtItemDescription.clear();
+            txtUnitPrice.clear();
+            txtQTYOnStock.clear();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void txtSearchOnKeyRelease(KeyEvent keyEvent) {
@@ -77,6 +128,12 @@ public class ItemStockFormController {
     }
 
     public void btnEditOnAction(ActionEvent actionEvent) {
+        StockItemTM selectedItems = tblItemStock.getSelectionModel().getSelectedItem();
+        txtItemCode.setText(selectedItems.getItemCode());
+        txtItemName.setText(selectedItems.getItemName());
+        txtItemDescription.setText(selectedItems.getItemDescription());
+        txtUnitPrice.setText(String.valueOf(selectedItems.getUnitPrice()));
+        txtQTYOnStock.setText(String.valueOf(selectedItems.getQtyOnStock()));
     }
 
     private String generateNewID() {
