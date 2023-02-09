@@ -125,6 +125,20 @@ public class ItemStockFormController {
     }
 
     public void btnRemoveOnAction(ActionEvent actionEvent) {
+        String id = tblItemStock.getSelectionModel().getSelectedItem().getItemCode();
+
+        try {
+            stockItemBO.deleteItem(id);
+            new Alert(Alert.AlertType.CONFIRMATION, "Delete Success..").show();
+            tblItemStock.getItems().remove(tblItemStock.getSelectionModel().getSelectedItem());
+            tblItemStock.getSelectionModel().clearSelection();
+            txtItemCode.setText(generateNewID());
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to delete the Items" + id).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void btnEditOnAction(ActionEvent actionEvent) {
