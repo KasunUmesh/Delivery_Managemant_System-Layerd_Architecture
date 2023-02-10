@@ -54,6 +54,8 @@ public class ItemOrderFormController {
     public TableColumn colItemDescription;
     public TableColumn colItemQty;
     private final ConfirmOrderBO confirmOrderBO = (ConfirmOrderBO) BoFactory.getBoFactory().getBO(BoFactory.BoTypes.CONFIRM_ORDER);
+    int orderAddItemRemove = -1;
+    ObservableList<NewOrderItemListTM> obList = FXCollections.observableArrayList();
 
     public void initialize(){
         colOrderNumber.setCellValueFactory(new PropertyValueFactory<>("orderNumber"));
@@ -77,6 +79,10 @@ public class ItemOrderFormController {
 
         cmbItemCode.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             setItemDataTxt(newValue);
+        });
+
+        tblItemList.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            orderAddItemRemove = (int) newValue;
         });
 
         pnAddItemList.setVisible(true);
@@ -133,7 +139,7 @@ public class ItemOrderFormController {
         }
     }
 
-    ObservableList<NewOrderItemListTM> obList = FXCollections.observableArrayList();
+
     public void btnAddOnAction(ActionEvent actionEvent) {
         String orderNumber = txtOrderNumber.getText();
         String itemName = txtItemName.getText();
@@ -205,6 +211,12 @@ public class ItemOrderFormController {
     }
 
     public void btnRemoveAddItemOnAction(ActionEvent actionEvent) {
+        if (orderAddItemRemove == -1) {
+            new Alert(Alert.AlertType.WARNING,"Please Select a Row").show();
+        }else {
+            obList.remove(orderAddItemRemove);
+            tblItemList.refresh();
+        }
     }
 
     public void btnConfirmOrderOnAction(ActionEvent actionEvent) {
