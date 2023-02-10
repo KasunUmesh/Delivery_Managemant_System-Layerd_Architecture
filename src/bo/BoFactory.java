@@ -28,12 +28,14 @@ public class BoFactory {
                 return new VehicleBOImpl();
             case STOCKITEM:
                 return new StockItemBOImpl();
+            case CONFIRM_ORDER:
+                return new ConfirmOrderBOImpl();
             default:
                 return null;
         }
     }
 
     public enum BoTypes {
-        CUSTOMER, EMPLOYEE, EMPLOYEEATTENDANCE, VEHICLE, STOCKITEM
+        CUSTOMER, EMPLOYEE, EMPLOYEEATTENDANCE, VEHICLE, STOCKITEM, CONFIRM_ORDER
     }
 }
