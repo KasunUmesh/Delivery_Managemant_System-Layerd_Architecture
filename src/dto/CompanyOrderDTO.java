@@ -21,6 +21,8 @@ public class CompanyOrderDTO implements Serializable {
         this.orderDetail = orderDetail;
     }
 
+
+
     public String getOrderNumber() {
         return orderNumber;
     }

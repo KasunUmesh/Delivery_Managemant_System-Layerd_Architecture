@@ -6,6 +6,8 @@ import bo.custom.ConfirmOrderBO;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import dto.CompanyOrderDTO;
+import dto.PlaceOrderDTO;
 import dto.StockItemDTO;
 import entity.StockItem;
 import javafx.collections.FXCollections;
@@ -23,8 +25,11 @@ import view.tdm.OrderTM;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ItemOrderFormController {
     public JFXTextField txtItemDescription;
@@ -55,6 +60,7 @@ public class ItemOrderFormController {
     public TableColumn colItemQty;
     private final ConfirmOrderBO confirmOrderBO = (ConfirmOrderBO) BoFactory.getBoFactory().getBO(BoFactory.BoTypes.CONFIRM_ORDER);
     int orderAddItemRemove = -1;
+    int orderItemQty = 0;
     ObservableList<NewOrderItemListTM> obList = FXCollections.observableArrayList();
 
     public void initialize(){
@@ -173,6 +179,7 @@ public class ItemOrderFormController {
             obList.add(newItemList);
         }
         tblItemList.setItems(obList);
+        orderItemQty+=1;
         cmbItemCode.requestFocus();
         txtItemName.clear();
         txtItemDescription.clear();
@@ -216,9 +223,37 @@ public class ItemOrderFormController {
         }else {
             obList.remove(orderAddItemRemove);
             tblItemList.refresh();
+            orderItemQty-=1;
         }
     }
 
     public void btnConfirmOrderOnAction(ActionEvent actionEvent) {
+        String orderNumber = txtOrderNumber.getText();
+        boolean b = saveOrder(orderNumber, LocalDate.now(), orderItemQty,
+                tblItemList.getItems().stream().map(tm -> new PlaceOrderDTO(orderNumber, tm.getItemCode(), tm.getItemQty())).collect(Collectors.toList()));
+        if (b) {
+            new Alert(Alert.AlertType.INFORMATION, "Order has been Confirm successfully").show();
+        }else {
+            new Alert(Alert.AlertType.ERROR, "Order has not been Confirm successfully").show();
+        }
+
+        txtOrderNumber.setText(generateNewOrderID());
+        tblItemList.getItems().clear();
+        txtItemDescription.clear();
+        txtItemName.clear();
+        txtItemQty.clear();
+    }
+
+    public boolean saveOrder(String orderId, LocalDate orderDate, int orderItemQTY, List<PlaceOrderDTO> orderDetail) {
+
+        try {
+            CompanyOrderDTO companyOrderDTO = new CompanyOrderDTO(orderId, orderDate, orderItemQTY, orderDetail);
+            return confirmOrderBO.ConfirmOrder(companyOrderDTO);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

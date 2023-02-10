@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class PlaceOrderDTO implements Serializable {
 
-    private String orderNumber;
+    private String oNumber;
     private String itemCode;
     private int itemQTY;
 
@@ -12,17 +12,17 @@ public class PlaceOrderDTO implements Serializable {
     }
 
     public PlaceOrderDTO(String orderNumber, String itemCode, int itemQTY) {
-        this.orderNumber = orderNumber;
+        this.oNumber = orderNumber;
         this.itemCode = itemCode;
         this.itemQTY = itemQTY;
     }
 
     public String getOrderNumber() {
-        return orderNumber;
+        return oNumber;
     }
 
     public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
+        this.oNumber = orderNumber;
     }
 
     public String getItemCode() {
@@ -44,7 +44,7 @@ public class PlaceOrderDTO implements Serializable {
     @Override
     public String toString() {
         return "PlaceOrderDTO{" +
-                "orderNumber='" + orderNumber + '\'' +
+                "orderNumber='" + oNumber + '\'' +
                 ", itemCode='" + itemCode + '\'' +
                 ", itemQTY=" + itemQTY +
                 '}';
