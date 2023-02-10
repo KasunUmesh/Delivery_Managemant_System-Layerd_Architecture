@@ -11,5 +11,6 @@ public interface ConfirmOrderBO extends SuperBO {
     boolean ConfirmOrder(CompanyOrderDTO dto);
     String generateNewOrderId() throws SQLException, ClassNotFoundException;
     ArrayList<StockItemDTO> getAllItems() throws SQLException, ClassNotFoundException;
+    StockItemDTO searchItem(String code) throws SQLException, ClassNotFoundException;
 
 }

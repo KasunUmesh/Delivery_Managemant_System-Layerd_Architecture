@@ -8,6 +8,7 @@ import dao.custom.StockItemDAO;
 import dto.CompanyOrderDTO;
 import dto.StockItemDTO;
 import entity.StockItem;
+import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -36,5 +37,11 @@ public class ConfirmOrderBOImpl implements ConfirmOrderBO {
             allItems.add(new StockItemDTO(stockItem.getItemCode(), stockItem.getItemName(), stockItem.getItemDescription(), stockItem.getUnitPrice(), stockItem.getQtyOnStock()));
         }
         return allItems;
+    }
+
+    @Override
+    public StockItemDTO searchItem(String code) throws SQLException, ClassNotFoundException {
+        StockItem stockItem = stockItemDAO.getItems(code);
+        return new StockItemDTO(stockItem.getItemCode(), stockItem.getItemName(), stockItem.getItemDescription(), stockItem.getUnitPrice(), stockItem.getQtyOnStock());
     }
 }

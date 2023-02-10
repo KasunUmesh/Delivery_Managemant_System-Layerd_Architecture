@@ -6,11 +6,16 @@ import bo.custom.ConfirmOrderBO;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import dto.StockItemDTO;
+import entity.StockItem;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import view.tdm.NewOrderItemListTM;
 import view.tdm.OrderItemListTM;
@@ -18,6 +23,7 @@ import view.tdm.OrderTM;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ItemOrderFormController {
@@ -50,12 +56,27 @@ public class ItemOrderFormController {
     private final ConfirmOrderBO confirmOrderBO = (ConfirmOrderBO) BoFactory.getBoFactory().getBO(BoFactory.BoTypes.CONFIRM_ORDER);
 
     public void initialize(){
+        colOrderNumber.setCellValueFactory(new PropertyValueFactory<>("orderNumber"));
+        colItemCode.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
+        colItemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+        colItemDescription.setCellValueFactory(new PropertyValueFactory<>("itemDescription"));
+        colItemQty.setCellValueFactory(new PropertyValueFactory<>("itemQty"));
+
+        colOrderNumberOrdertb.setCellValueFactory(new PropertyValueFactory<>("orderNumber"));
+        colOrderDate.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
+        colOrderItemQty.setCellValueFactory(new PropertyValueFactory<>("orderItemQty"));
+
+        colOrderItemCode.setCellValueFactory(new PropertyValueFactory<>("orderItemCode"));
+        colOrderItemName.setCellValueFactory(new PropertyValueFactory<>("orderItemName"));
+        colOrderItemDescription.setCellValueFactory(new PropertyValueFactory<>("orderItemDescription"));
+        colOrderDetailItemQty.setCellValueFactory(new PropertyValueFactory<>("orderDetailItemQty"));
 
         loadDate();
         txtOrderNumber.setText(generateNewOrderID());
+        loadAllItemCodes();
 
         cmbItemCode.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-
+            setItemDataTxt(newValue);
         });
 
         pnAddItemList.setVisible(true);
@@ -82,7 +103,83 @@ public class ItemOrderFormController {
         return null;
     }
 
+    private void loadAllItemCodes() {
+        try {
+            ArrayList<StockItemDTO> all = confirmOrderBO.getAllItems();
+            for (StockItemDTO dto : all) {
+                cmbItemCode.getItems().add(dto.getItemCode());
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setItemDataTxt(String itemCode) {
+        try {
+            StockItemDTO i1 = confirmOrderBO.searchItem(itemCode);
+            if (i1 == null) {
+                new Alert(Alert.AlertType.WARNING, "Empty Result Set").show();
+            } else {
+                txtItemName.setText(i1.getItemName());
+                txtItemDescription.setText(i1.getItemDescription());
+            }
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    ObservableList<NewOrderItemListTM> obList = FXCollections.observableArrayList();
     public void btnAddOnAction(ActionEvent actionEvent) {
+        String orderNumber = txtOrderNumber.getText();
+        String itemName = txtItemName.getText();
+        String description = txtItemDescription.getText();
+        int itemQty = Integer.parseInt(txtItemQty.getText());
+
+
+
+        NewOrderItemListTM itemListTM = new NewOrderItemListTM(
+                orderNumber,
+                cmbItemCode.getValue(),
+                itemName,
+                description,
+                itemQty
+        );
+
+        int rowNumber = isAddItem(itemListTM);
+
+        if (rowNumber == -1) {
+            obList.add(itemListTM);
+        }else {
+            NewOrderItemListTM temp = obList.get(rowNumber);
+            NewOrderItemListTM newItemList = new NewOrderItemListTM(
+                    temp.getOrderNumber(),
+                    temp.getItemCode(),
+                    temp.getItemName(),
+                    temp.getItemDescription(),
+                    temp.getItemQty() + itemQty
+            );
+            obList.remove(rowNumber);
+            obList.add(newItemList);
+        }
+        tblItemList.setItems(obList);
+        cmbItemCode.requestFocus();
+        txtItemName.clear();
+        txtItemDescription.clear();
+        txtItemQty.clear();
+    }
+
+    private int isAddItem(NewOrderItemListTM itemListTM) {
+        for (int i = 0; i < obList.size(); i++) {
+            if (itemListTM.getItemCode().equals(obList.get(i).getItemCode())) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public void btnViewOrderDetailOnAction(ActionEvent actionEvent) {

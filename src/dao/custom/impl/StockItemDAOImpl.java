@@ -2,6 +2,7 @@ package dao.custom.impl;
 
 import dao.CrudUtil;
 import dao.custom.StockItemDAO;
+import dto.StockItemDTO;
 import entity.StockItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -56,5 +57,12 @@ public class StockItemDAOImpl implements StockItemDAO {
         }else {
             return "I001";
         }
+    }
+
+    @Override
+    public StockItem getItems(String itemCode) throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM StockItem WHERE itemCode=?", itemCode);
+        rst.next();
+        return new StockItem(itemCode, rst.getString("itemName"), rst.getString("itemDescription"), rst.getDouble("unitPrice"), rst.getInt("qtyOnStock"));
     }
 }
