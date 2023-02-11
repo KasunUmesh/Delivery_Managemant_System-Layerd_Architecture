@@ -14,6 +14,7 @@ import dto.StockItemDTO;
 import entity.CompanyOrder;
 import entity.PlaceOrder;
 import entity.StockItem;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.Connection;
@@ -100,7 +101,7 @@ public class ConfirmOrderBOImpl implements ConfirmOrderBO {
         ArrayList<CustomDTO> allOrderDetails = new ArrayList<>();
         ArrayList<CustomDTO> all = queryDAO.getOrderDetailsFromOrderID(orderNumber);
         for (CustomDTO customDTO : all) {
-            allOrderDetails.add(new CustomDTO(customDTO.getOrderNumber(), customDTO.getItemCode(), customDTO.getItemName(), customDTO.getItemDescription(), customDTO.getItemQTY()));
+            allOrderDetails.add(new CustomDTO(customDTO.getItemCode(), customDTO.getItemName(), customDTO.getItemDescription(), customDTO.getItemQTY()));
         }
         return allOrderDetails;
     }

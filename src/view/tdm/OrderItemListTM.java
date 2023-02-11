@@ -1,6 +1,8 @@
 package view.tdm;
 
-public class OrderItemListTM {
+import dto.CustomDTO;
+
+public class OrderItemListTM extends CustomDTO {
 
     private String orderItemCode;
     private String orderItemName;

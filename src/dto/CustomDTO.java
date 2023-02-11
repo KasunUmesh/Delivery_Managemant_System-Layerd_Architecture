@@ -3,7 +3,7 @@ package dto;
 import java.io.Serializable;
 
 public class CustomDTO implements Serializable {
-    private String orderNumber;
+
     private String itemCode;
     private String itemName;
     private String itemDescription;
@@ -12,20 +12,11 @@ public class CustomDTO implements Serializable {
     public CustomDTO() {
     }
 
-    public CustomDTO(String orderNumber, String itemCode, String itemName, String itemDescription, int itemQTY) {
-        this.orderNumber = orderNumber;
+    public CustomDTO(String itemCode, String itemName, String itemDescription, int itemQTY) {
         this.itemCode = itemCode;
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.itemQTY = itemQTY;
-    }
-
-    public String getOrderNumber() {
-        return orderNumber;
-    }
-
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
     }
 
     public String getItemCode() {
@@ -63,8 +54,7 @@ public class CustomDTO implements Serializable {
     @Override
     public String toString() {
         return "CustomDTO{" +
-                "orderNumber='" + orderNumber + '\'' +
-                ", itemCode='" + itemCode + '\'' +
+                "itemCode='" + itemCode + '\'' +
                 ", itemName='" + itemName + '\'' +
                 ", itemDescription='" + itemDescription + '\'' +
                 ", itemQTY=" + itemQTY +

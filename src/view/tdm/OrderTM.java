@@ -1,15 +1,17 @@
 package view.tdm;
 
+import java.time.LocalDate;
+
 public class OrderTM {
 
     private String orderNumber;
-    private String orderDate;
+    private LocalDate orderDate;
     private int orderItemQty;
 
     public OrderTM() {
     }
 
-    public OrderTM(String orderNumber, String orderDate, int orderItemQty) {
+    public OrderTM(String orderNumber, LocalDate orderDate, int orderItemQty) {
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
         this.orderItemQty = orderItemQty;
@@ -23,11 +25,11 @@ public class OrderTM {
         this.orderNumber = orderNumber;
     }
 
-    public String getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(String orderDate) {
+    public void setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
     }
 

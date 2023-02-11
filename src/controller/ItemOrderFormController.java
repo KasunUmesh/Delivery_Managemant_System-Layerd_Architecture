@@ -7,9 +7,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import dto.CompanyOrderDTO;
+import dto.CustomDTO;
 import dto.PlaceOrderDTO;
 import dto.StockItemDTO;
-import entity.StockItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,7 +46,7 @@ public class ItemOrderFormController {
     public TableColumn colOrderDate;
     public TableColumn colOrderItemQty;
     public Pane pnOrderItemList;
-    public TableView<OrderItemListTM> tblOrderItemList;
+    public TableView<CustomDTO> tblOrderItemList;
     public TableColumn colOrderItemCode;
     public TableColumn colOrderItemName;
     public TableColumn colOrderItemDescription;
@@ -82,6 +82,7 @@ public class ItemOrderFormController {
         loadDate();
         txtOrderNumber.setText(generateNewOrderID());
         loadAllItemCodes();
+        setOrderToTables();
 
         cmbItemCode.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             setItemDataTxt(newValue);
@@ -89,6 +90,10 @@ public class ItemOrderFormController {
 
         tblItemList.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             orderAddItemRemove = (int) newValue;
+        });
+
+        tblOrder.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            setOrderItemToTable(newValue.getOrderNumber());
         });
 
         pnAddItemList.setVisible(true);
@@ -125,6 +130,35 @@ public class ItemOrderFormController {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setOrderToTables() {
+
+        try {
+            ArrayList<CompanyOrderDTO> allOrders = confirmOrderBO.getAllOrders();
+            for (CompanyOrderDTO e : allOrders) {
+                tblOrder.getItems().add(new OrderTM(e.getOrderNumber(), e.getOrderDate(), e.getOrderItemQTY()));
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+    }
+
+    private void setOrderItemToTable(String orderNumber) {
+        tblOrderItemList.getItems().clear();
+
+        try {
+            ArrayList<CustomDTO> allOrderDetails = confirmOrderBO.getAllOrderDetails(orderNumber);
+            for (CustomDTO e : allOrderDetails) {
+                tblOrderItemList.getItems().add(new OrderItemListTM(e.getItemCode(), e.getItemName(), e.getItemDescription(), e.getItemQTY()));
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
 
@@ -238,6 +272,7 @@ public class ItemOrderFormController {
         }
 
         txtOrderNumber.setText(generateNewOrderID());
+        setOrderToTables();
         tblItemList.getItems().clear();
         txtItemDescription.clear();
         txtItemName.clear();
