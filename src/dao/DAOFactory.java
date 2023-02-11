@@ -33,6 +33,8 @@ public class DAOFactory {
                 return new OrderDetailsDAOImpl();
             case QUERYDAO:
                 return new QueryDAOImpl();
+            case SOLD_DETAILS:
+                return new SoldDetailsDAOImpl();
             default:
                 return null;
         }
@@ -40,6 +42,6 @@ public class DAOFactory {
     }
 
     public enum DAOTypes {
-        CUSTOMER, EMPLOYEE, EMPLOYEEATTENDANCE, VEHICLE, STOCKITEM, ORDER, ORDERDETAILS, QUERYDAO
+        CUSTOMER, EMPLOYEE, EMPLOYEEATTENDANCE, VEHICLE, STOCKITEM, ORDER, ORDERDETAILS, QUERYDAO, SOLD_DETAILS
     }
 }
