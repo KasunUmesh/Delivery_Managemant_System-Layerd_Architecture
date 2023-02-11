@@ -15,8 +15,8 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
     }
 
     @Override
-    public boolean delete(String s) throws SQLException, ClassNotFoundException {
-        throw new UnsupportedOperationException("Not Supported Yet");
+    public boolean delete(String orderNumber) throws SQLException, ClassNotFoundException {
+        return CrudUtil.executeUpdate("DELETE FROM PlaceOrder WHERE orderNumber=?", orderNumber);
     }
 
     @Override

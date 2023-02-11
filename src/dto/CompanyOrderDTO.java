@@ -21,7 +21,11 @@ public class CompanyOrderDTO implements Serializable {
         this.orderDetail = orderDetail;
     }
 
-
+    public CompanyOrderDTO(String orderNumber, LocalDate orderDate, int orderItemQTY) {
+        this.orderNumber = orderNumber;
+        this.orderDate = orderDate;
+        this.orderItemQTY = orderItemQTY;
+    }
 
     public String getOrderNumber() {
         return orderNumber;

@@ -4,9 +4,11 @@ import bo.custom.ConfirmOrderBO;
 import dao.DAOFactory;
 import dao.custom.CompanyOrderDAO;
 import dao.custom.OrderDetailsDAO;
+import dao.custom.QueryDAO;
 import dao.custom.StockItemDAO;
 import db.DBConnection;
 import dto.CompanyOrderDTO;
+import dto.CustomDTO;
 import dto.PlaceOrderDTO;
 import dto.StockItemDTO;
 import entity.CompanyOrder;
@@ -16,6 +18,7 @@ import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ConfirmOrderBOImpl implements ConfirmOrderBO {
@@ -23,6 +26,7 @@ public class ConfirmOrderBOImpl implements ConfirmOrderBO {
     private final StockItemDAO stockItemDAO = (StockItemDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.STOCKITEM);
     private final CompanyOrderDAO companyOrderDAO = (CompanyOrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER);
     private final OrderDetailsDAO orderDetailsDAO = (OrderDetailsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDERDETAILS);
+    private final QueryDAO queryDAO = (QueryDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.QUERYDAO);
 
     @Override
     public boolean ConfirmOrder(CompanyOrderDTO dto) throws SQLException, ClassNotFoundException {
@@ -79,5 +83,25 @@ public class ConfirmOrderBOImpl implements ConfirmOrderBO {
     public StockItemDTO searchItem(String code) throws SQLException, ClassNotFoundException {
         StockItem stockItem = stockItemDAO.getItems(code);
         return new StockItemDTO(stockItem.getItemCode(), stockItem.getItemName(), stockItem.getItemDescription(), stockItem.getUnitPrice(), stockItem.getQtyOnStock());
+    }
+
+    @Override
+    public ArrayList<CompanyOrderDTO> getAllOrders() throws SQLException, ClassNotFoundException {
+        ArrayList<CompanyOrderDTO> allOrders = new ArrayList<>();
+        ArrayList<CompanyOrder> all = companyOrderDAO.getAll();
+        for (CompanyOrder companyOrder : all) {
+            allOrders.add(new CompanyOrderDTO(companyOrder.getOrderNumber(), companyOrder.getOrderDate(), companyOrder.getOrderItemQTY()));
+        }
+        return allOrders;
+    }
+
+    @Override
+    public ArrayList<CustomDTO> getAllOrderDetails(String orderNumber) throws SQLException, ClassNotFoundException {
+        ArrayList<CustomDTO> allOrderDetails = new ArrayList<>();
+        ArrayList<CustomDTO> all = queryDAO.getOrderDetailsFromOrderID(orderNumber);
+        for (CustomDTO customDTO : all) {
+            allOrderDetails.add(new CustomDTO(customDTO.getOrderNumber(), customDTO.getItemCode(), customDTO.getItemName(), customDTO.getItemDescription(), customDTO.getItemQTY()));
+        }
+        return allOrderDetails;
     }
 }

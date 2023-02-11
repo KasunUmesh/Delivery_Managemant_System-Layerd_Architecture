@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class CompanyOrderDAOImpl implements CompanyOrderDAO {
@@ -17,8 +18,8 @@ public class CompanyOrderDAOImpl implements CompanyOrderDAO {
     }
 
     @Override
-    public boolean delete(String s) throws SQLException, ClassNotFoundException {
-        throw new UnsupportedOperationException("Not Supported Yet");
+    public boolean delete(String orderNumber) throws SQLException, ClassNotFoundException {
+        return CrudUtil.executeUpdate("DELETE FROM CompanyOrder WHERE orderNumber=?", orderNumber);
     }
 
     @Override
@@ -28,7 +29,12 @@ public class CompanyOrderDAOImpl implements CompanyOrderDAO {
 
     @Override
     public ArrayList<CompanyOrder> getAll() throws SQLException, ClassNotFoundException {
-        throw new UnsupportedOperationException("Not Supported Yet");
+        ArrayList<CompanyOrder> allOrder = new ArrayList<>();
+        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM CompanyOrder");
+        while (rst.next()) {
+            allOrder.add(new CompanyOrder(rst.getString("orderNumber"), LocalDate.parse(rst.getString("orderDate")), rst.getInt("orderItemQTY")));
+        }
+        return allOrder;
     }
 
     @Override

@@ -2,6 +2,8 @@ package bo.custom;
 
 import bo.SuperBO;
 import dto.CompanyOrderDTO;
+import dto.CustomDTO;
+import dto.PlaceOrderDTO;
 import dto.StockItemDTO;
 
 import java.sql.SQLException;
@@ -12,5 +14,7 @@ public interface ConfirmOrderBO extends SuperBO {
     String generateNewOrderId() throws SQLException, ClassNotFoundException;
     ArrayList<StockItemDTO> getAllItems() throws SQLException, ClassNotFoundException;
     StockItemDTO searchItem(String code) throws SQLException, ClassNotFoundException;
+    ArrayList<CompanyOrderDTO> getAllOrders() throws SQLException, ClassNotFoundException;
+    ArrayList<CustomDTO> getAllOrderDetails(String orderNumber) throws SQLException, ClassNotFoundException;
 
 }
